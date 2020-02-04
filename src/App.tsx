@@ -1,71 +1,62 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import './App.css';
+import { firebaseApp } from "./firebase";
+import { TranslationItem } from './TranslationItem';
+import { TranslationResult, translate } from './api/translate';
+import { TranslationItemList } from './TranslationItemList';
 
-interface TranslationResult {
-  term: string;
-  pronunciation: string;
-  translations: { wordClass: string, translation: string }[];
-}
 
-function parseFetchResponse(response: any): TranslationResult {
-  if (!response.translate.length) {
-    return undefined;
-  }
 
-  const translate = response.translate[0];
 
-  const term = translate.head.entr;
-  const pronunciation = translate.head.pron;
-  const translations = translate.grps.map(g => ({
-    wordClass: g.morf,
-    translation: g.sens.flatMap(s => s.trans).join(", ")
-  }))
 
-  return { term, pronunciation, translations };
-}
+let ref: firebase.database.Reference;
 
 const App: React.FC = () => {
   const [term, setTerm] = useState("dog");
   const [translationResult, setTranslationResult] = useState<TranslationResult>();
+  const [favorites, setFavorites] = useState<TranslationResult[]>();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => setTerm(event.target.value);
-
-  const clicked = (event: FormEvent) => {
-    event.preventDefault();
-    
-    const url = `http://cors-anywhere.herokuapp.com/https://slovnik.seznam.cz/api/slovnik?dictionary=en&query=${term}`;
-    fetch(url).then(response => {
-      response.json().then(response => {
-        const result = parseFetchResponse(response);
-        setTranslationResult(result);
-        console.log(result);
-      });
-    }, error => {
-      alert(error);
+  const handleAddToFavoriteClick = () => {
+    ref.update({
+      [term]: translationResult
     });
   }
 
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    
+    translate(term).then(result => setTranslationResult(result));
+  }
+
+  useEffect(() => {
+    ref = firebaseApp.database().ref("favorite");
+
+    const onValue = (snapshot) => {
+      const value  = snapshot.val();
+
+      setFavorites(Object.entries<TranslationResult>(value).map(([k, v]) => v));
+    }
+
+    ref.on("value", onValue);
+  }, [])
+
   return (
     <div className="App">
-      <form onSubmit={clicked}>
+      <form onSubmit={handleSubmit}>
         <input type="text" value={term} onChange={handleChange}></input>
         <button type="submit">Lookup</button>
       </form>
 
-      {translationResult && <TranslationIten translationResult={translationResult}></TranslationIten>}
+      {translationResult && <TranslationItem translationResult={translationResult} onAddToFavoriteClick={handleAddToFavoriteClick}></TranslationItem>}
+
+      <div>
+        Favorites
+        <TranslationItemList items={favorites}></TranslationItemList>
+      </div>
     </div>
   );
 }
 
 export default App;
 
-const TranslationIten: React.FC<any> = (props: any) => {
-  return (
-    <div>
-      {props.translationResult.term} {props.translationResult.pronunciation}
-      <ul>
-        {props.translationResult.translations.map((t, i) => <li key={i}>{t.wordClass}: {t.translation}</li>)}
-      </ul>
-    </div>
-  )
-}
