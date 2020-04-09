@@ -2,6 +2,7 @@ export interface TranslationResult {
     term: string;
     pronunciation: string;
     translations: { wordClass: string, translation: string }[];
+    created?: Date;
 }
 
 function parseFetchResponse(response: any): TranslationResult {
@@ -22,7 +23,7 @@ function parseFetchResponse(response: any): TranslationResult {
 }
 
 export function translate(term: string): Promise<TranslationResult> {
-    const url = `http://cors-anywhere.herokuapp.com/https://slovnik.seznam.cz/api/slovnik?dictionary=en&query=${term}`;
+    const url = `https://cors-anywhere.herokuapp.com/https://slovnik.seznam.cz/api/slovnik?dictionary=en&query=${term}`;
 
     return fetch(url)
         .then(response => response.json())

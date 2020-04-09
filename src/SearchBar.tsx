@@ -1,7 +1,7 @@
 import React, { FC, useState, FormEvent } from "react";
 
 export const SearchBar: FC<{ onSubmit }> = ({ onSubmit }) => {
-  const [term, setTerm] = useState("dog");
+  const [term, setTerm] = useState("");
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
