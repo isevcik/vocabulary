@@ -1,0 +1,14 @@
+.TranslationItem {
+  padding: 8px;
+  border-radius: 4px;
+
+  background: #fff;
+}
+
+.TranslationItem__header {
+
+}
+
+.TranslationItem__header__word {
+  font-weight: var(--font-weight-medium);
+}

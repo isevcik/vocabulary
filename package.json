@@ -23,7 +23,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "scp -r build/* hetzner:/var/www/ivansevcik.cz/vocabulary/ && ssh hetzner chown www-data:www-data -R /var/www/ivansevcik.cz/vocabulary"
-
   },
   "eslintConfig": {
     "extends": "react-app"

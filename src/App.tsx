@@ -10,8 +10,8 @@ const App: React.FC = () => {
   const [user, setUser] = useState();
   const [initialized, setInitialized] = useState(false);
 
-  const handleLogin = user => {
-    setUser(user);
+  const handleLogin = fbUser => {
+    setUser(fbUser);
     setInitialized(true);
   }
 
