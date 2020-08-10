@@ -9,7 +9,7 @@ export const TranslationItem: React.FC<{ translationResult: TranslationResult, o
       {props.onAddToFavoriteClick && <button onClick={props.onAddToFavoriteClick}>Add to Favorites</button>}
       <div className="TranslationItem__header">
         <span className="TranslationItem__header__word">{props.translationResult.term}</span>
-        {props.translationResult.pronunciation}
+        <span className="TranslationItem__header__pronunciation">{props.translationResult.pronunciation}</span>
       </div>
       <ul>
         {props.translationResult.translations.map((t, i) => <li key={i}>{t.wordClass}: {t.translation}</li>)}

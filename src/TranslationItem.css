@@ -12,3 +12,10 @@
 .TranslationItem__header__word {
   font-weight: var(--font-weight-medium);
 }
+
+.TranslationItem__header__pronunciation {
+  margin-left: 10px;
+
+  color: var(--color-grey-on-white);
+  font-weight: var(--font-weight-medium);
+}

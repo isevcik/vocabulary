@@ -15,8 +15,10 @@ code {
 :root {
   --color-background: #FFEACA;
   --color-black-on-white: #282020;
+  --color-grey-on-white: #AB7878;
 
-  --font-size-normal: 12px;
+  --font-size-normal: 14px;
+  --font-size-input: 16px;
   --font-weight-medium: 500;
 
   font-family: 'Roboto', sans-serif;
@@ -25,4 +27,11 @@ code {
 
   background: var(--color-background);
   color: var(--color-black-on-white);
+}
+
+input {
+  font-family: 'Roboto', sans-serif;
+  font-size: var(--font-size-input);
+  line-height: var(--font-size-input);
+  padding: 8px;
 }

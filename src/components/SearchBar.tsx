@@ -1,4 +1,5 @@
 import React, { FC, useState, FormEvent } from "react";
+import "./SearchBar.css";
 
 export const SearchBar: FC<{ onSubmit }> = ({ onSubmit }) => {
   const [term, setTerm] = useState("");
@@ -9,8 +10,8 @@ export const SearchBar: FC<{ onSubmit }> = ({ onSubmit }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" value={term} onChange={(event) => setTerm(event.target.value)}></input>
+    <form onSubmit={handleSubmit} className="SearchBar">
+      <input type="text" value={term} onChange={(event) => setTerm(event.target.value)} className="SearchBar__input"></input>
       <button type="submit">Lookup</button>
     </form>
   )

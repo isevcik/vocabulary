@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { translate, TranslationResult } from "./api/translate";
 import { firebaseApp } from "./firebase";
-import { SearchBar } from "./SearchBar";
+import { SearchBar } from "./components/SearchBar";
 import { TranslationItem } from "./TranslationItem";
 import { TranslationItemList } from "./TranslationItemList";
 
