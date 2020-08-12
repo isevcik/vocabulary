@@ -5,15 +5,18 @@ import { firebaseApp } from "./firebase";
 import { SearchBar } from "./components/SearchBar";
 import { TranslationItem } from "./TranslationItem";
 import { TranslationItemList } from "./TranslationItemList";
+import "./Home.css";
+import { Loader } from "./components/Loader";
 
 export const Home = () => {
   const [term, setTerm] = useState();
   const [translationResult, setTranslationResult] = useState<TranslationResult>();
   const [favorites, setFavorites] = useState<TranslationResult[]>();
 
-  const handleSubmit = (term: string) => {
+  const handleSubmit = async (term: string) => {
     setTerm(term);
-    translate(term).then(result => setTranslationResult(result));
+    const result = await translate(term);
+    setTranslationResult(result);
   }
 
   const handleAddToFavoriteClick = () => {
@@ -31,8 +34,13 @@ export const Home = () => {
 
   return (
     <div>
-      <SearchBar onSubmit={handleSubmit}></SearchBar>
+      <div className="Home__header">
+        <SearchBar onSubmit={handleSubmit}></SearchBar>
+      </div>
+
       {translationResult && <TranslationItem translationResult={translationResult} onAddToFavoriteClick={handleAddToFavoriteClick}></TranslationItem>}
+      {!translationResult && term && <Loader></Loader>}
+
       <div>
         Favorites
         <TranslationItemList items={favorites}></TranslationItemList>

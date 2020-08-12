@@ -1,4 +1,22 @@
-.SearchBar__input {
+.SearchBar {
+  display: flex;
+
+  overflow: hidden;
+
   border-radius: 4px;
   border: none;
+  background: #fff;
+}
+
+.SearchBar__input {
+  flex: 1;
+
+  border: none;
+  outline: none;
+}
+
+.SearchBar button {
+  border: none;
+  background: #fff;
+  cursor: pointer;
 }
