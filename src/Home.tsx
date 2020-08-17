@@ -15,6 +15,7 @@ export const Home = () => {
 
   const handleSubmit = async (term: string) => {
     setTerm(term);
+    setTranslationResult(undefined);
     const result = await translate(term);
     setTranslationResult(result);
   }
@@ -38,10 +39,13 @@ export const Home = () => {
         <SearchBar onSubmit={handleSubmit}></SearchBar>
       </div>
 
-      {translationResult && <TranslationItem translationResult={translationResult} onAddToFavoriteClick={handleAddToFavoriteClick}></TranslationItem>}
-      {!translationResult && term && <Loader></Loader>}
+      <div className="Home__result">
+        {translationResult && <TranslationItem translationResult={translationResult} onAddToFavoriteClick={handleAddToFavoriteClick}></TranslationItem>}
+        {!translationResult && term && <Loader></Loader>}
+      </div>
 
-      <div>
+
+      <div className="Home__favorites">
         Favorites
         <TranslationItemList items={favorites}></TranslationItemList>
       </div>
