@@ -9,14 +9,19 @@ import "./Home.css";
 import { Loader } from "./components/Loader";
 
 export const Home = () => {
-  const [term, setTerm] = useState();
-  const [translationResult, setTranslationResult] = useState<TranslationResult>();
+  const [term, setTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [translationResult, setTranslationResult] = useState<TranslationResult|false>();
   const [favorites, setFavorites] = useState<TranslationResult[]>();
 
   const handleSubmit = async (term: string) => {
     setTerm(term);
     setTranslationResult(undefined);
-    const result = await translate(term);
+    setIsLoading(true);
+
+    const result = await translate(term) || false;
+
+    setIsLoading(false);
     setTranslationResult(result);
   }
 
@@ -41,7 +46,8 @@ export const Home = () => {
 
       <div className="Home__result">
         {translationResult && <TranslationItem translationResult={translationResult} onAddToFavoriteClick={handleAddToFavoriteClick}></TranslationItem>}
-        {!translationResult && term && <Loader></Loader>}
+        {isLoading && <Loader></Loader>}
+        {translationResult === false && <span>No results</span>}
       </div>
 
 
