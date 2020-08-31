@@ -2,7 +2,7 @@ export interface TranslationResult {
     term: string;
     pronunciation: string;
     translations: { wordClass: string, translation: string }[];
-    created?: Date;
+    date?: Date;
 }
 
 function parseFetchResponse(response: any): TranslationResult {
@@ -28,4 +28,10 @@ export function translate(term: string): Promise<TranslationResult> {
     return fetch(url)
         .then(response => response.json())
         .then(response => parseFetchResponse(response));
+}
+
+export function hydrateTranslationResult(translation: TranslationResult) {
+  translation.date = new Date(translation.date);
+
+  return translation;
 }

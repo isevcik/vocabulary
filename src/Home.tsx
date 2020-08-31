@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-import { translate, TranslationResult } from "./api/translate";
-import { firebaseApp } from "./firebase";
+import { translate, TranslationResult, hydrateTranslationResult } from "./api/translate";
+import { firebaseApp } from "./api/firebase";
 import { SearchBar } from "./components/SearchBar";
 import { TranslationItem } from "./TranslationItem";
 import { TranslationItemList } from "./TranslationItemList";
 import "./Home.css";
 import { Loader } from "./components/Loader";
+import { storage } from "./api/storage";
 
 export const Home = () => {
   const [term, setTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [translationResult, setTranslationResult] = useState<TranslationResult|false>();
-  const [favorites, setFavorites] = useState<TranslationResult[]>();
+  const [translationResult, setTranslationResult] = useState<TranslationResult | false>();
+  const [recent, setRecent] = useState<TranslationResult[]>();
 
   const handleSubmit = async (term: string) => {
     setTerm(term);
@@ -23,18 +24,30 @@ export const Home = () => {
 
     setIsLoading(false);
     setTranslationResult(result);
+
+    result && storage.addRecentTranslation(result);
   }
 
   const handleAddToFavoriteClick = () => {
+    const key = term.trim();
     firebaseApp.database().ref("favorite").update({
-      [term]: { ...translationResult, date: new Date() }
+      [key]: { ...translationResult, date: new Date() }
     });
   }
 
   useEffect(() => {
-    firebaseApp.database().ref("favorite").on("value", (snapshot) => {
+    firebaseApp.database().ref("recent").on("value", (snapshot) => {
       const value = snapshot.val();
-      setFavorites(Object.entries<TranslationResult>(value).map(([k, v]) => v));
+      if (!value) {
+        return;
+      }
+
+      const recent = Object.entries<TranslationResult>(value)
+        .map(([k, v]) => v)
+        .map(hydrateTranslationResult)
+        .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+
+      setRecent(recent);
     })
   }, []);
 
@@ -52,8 +65,8 @@ export const Home = () => {
 
 
       <div className="Home__favorites">
-        Favorites
-        <TranslationItemList items={favorites}></TranslationItemList>
+        Recent
+        <TranslationItemList items={recent}></TranslationItemList>
       </div>
     </div>
   )

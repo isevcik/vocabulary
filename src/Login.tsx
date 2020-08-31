@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { firebaseApp } from "./firebase";
+import { firebaseApp } from "./api/firebase";
 
 export const Login = ({onLogin}) => {
   const [email, setEmail] = useState();

@@ -10,6 +10,7 @@ export const TranslationItem: React.FC<{ translationResult: TranslationResult, o
       <div className="TranslationItem__header">
         <span className="TranslationItem__header__word">{props.translationResult.term}</span>
         <span className="TranslationItem__header__pronunciation">{props.translationResult.pronunciation}</span>
+        {props.translationResult.date && <span className="TranslationItem__header__date">{props.translationResult.date.toDateString()}</span>}
       </div>
       <ul>
         {props.translationResult.translations.map((t, i) => <li key={i}>{t.wordClass}: {t.translation}</li>)}

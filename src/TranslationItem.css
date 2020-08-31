@@ -6,7 +6,7 @@
 }
 
 .TranslationItem__header {
-
+  display: flex
 }
 
 .TranslationItem__header__word {
@@ -18,4 +18,11 @@
 
   color: var(--color-grey-on-white);
   font-weight: var(--font-weight-medium);
+}
+
+.TranslationItem__header__date {
+  margin-left: auto;
+
+  color: var(--color-grey-on-white);
+  font-size: var(--font-size-small);
 }
