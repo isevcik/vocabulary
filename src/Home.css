@@ -5,3 +5,10 @@
 .Home__result {
   margin-bottom: 16px;
 }
+
+.Home__recent__heading {
+  margin-bottom: 8px;
+
+  color: var(--color-black-on-sepia);
+  font-weight: var(--font-weight-medium);
+}

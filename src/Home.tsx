@@ -64,8 +64,10 @@ export const Home = () => {
       </div>
 
 
-      <div className="Home__favorites">
-        Recent
+      <div className="Home__recent">
+        <div className="Home__recent__heading">
+          Recent
+        </div>
         <TranslationItemList items={recent}></TranslationItemList>
       </div>
     </div>
