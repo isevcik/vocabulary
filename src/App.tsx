@@ -5,6 +5,7 @@ import './App.css';
 import { firebaseApp } from "./api/firebase";
 import { Home } from './Home';
 import { Login } from './Login';
+import { Spinner } from './components/Spinner';
 
 const App: React.FC = () => {
   const [user, setUser] = useState();
@@ -23,18 +24,20 @@ const App: React.FC = () => {
     <div className="App">
       {/* <button onClick={() => firebaseApp.auth().signOut()}>Logout</button> */}
 
-      {initialized && (
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              {user ? <Home></Home> : <Redirect to="/login"></Redirect>}
-            </Route>
-            <Route path="/login">
-              <Login onLogin={handleLogin}></Login>
-            </Route>
-          </Switch>
-        </Router>
-      )}
+      {!initialized
+        ? <Spinner></Spinner>
+        : (
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                {user ? <Home></Home> : <Redirect to="/login"></Redirect>}
+              </Route>
+              <Route path="/login">
+                <Login onLogin={handleLogin}></Login>
+              </Route>
+            </Switch>
+          </Router>
+        )}
     </div >
   );
 }
