@@ -1,0 +1,6 @@
+.SearchLayout__heading {
+  margin: 8px 0;
+
+  color: var(--color-black-on-sepia);
+  font-weight: var(--font-weight-medium);
+}
