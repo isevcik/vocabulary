@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Redirect, Route, Switch, Link } from "react-ro
 
 import './App.css';
 import { firebaseApp } from "./api/firebase";
-import { Home } from './Home';
 import { Login } from './Login';
 import { Spinner } from './components/Spinner';
 import { Recent } from './pages/Recent';
